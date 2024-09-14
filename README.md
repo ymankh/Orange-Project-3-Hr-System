@@ -33,7 +33,7 @@ To set up the project locally, follow these steps:
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/mock-hr-task-management.git
+    git clone https://github.com/ymankh/Orange-Project-3-Hr-System.git
     ```
 2. Navigate to the project directory:
 
