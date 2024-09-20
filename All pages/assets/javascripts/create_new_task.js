@@ -19,7 +19,7 @@ let badgeMapper = {
 };
 
 // Get the user data from the local storage
-let user 
+let user;
 try {
   user = JSON.parse(localStorage.loggedInUser);
 } catch (error) {
@@ -139,9 +139,11 @@ function addTaskToLocalStorage(task) {
     addAction("Create New Task", "Create the new task " + task.taskTitle);
   }
   localStorage.tasks = JSON.stringify(tasks);
-
   // Display the new task on the page.
 }
+
+console.log(tasks);
+
 
 // Edit the task card
 function editTaskCard(task) {
