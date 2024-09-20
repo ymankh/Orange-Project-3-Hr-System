@@ -142,7 +142,6 @@ function addTaskToLocalStorage(task) {
   // Display the new task on the page.
 }
 
-console.log(tasks);
 
 
 // Edit the task card

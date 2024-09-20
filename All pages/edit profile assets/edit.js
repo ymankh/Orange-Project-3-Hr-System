@@ -218,9 +218,7 @@ function saveProfile(event) {
 
       // Retrieve usersData from local storage
       const usersData = JSON.parse(localStorage.getItem("usersData")) || [];
-      console.log(usersData);
 
-      console.log(loggedInUser);
       // Update the user's information in usersData
       for (let i = 0; i < usersData.length; i++) {
         if (usersData[i].email === Oldemail) {

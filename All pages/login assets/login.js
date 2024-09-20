@@ -58,7 +58,6 @@ loginForm.addEventListener("submit", function (event) {
         "User not found, please check your email or register to continue";
     }
   } else {
-    console.log("No users data in localStorage");
   }
 });
 

@@ -18,6 +18,12 @@
       rel="stylesheet"
       href="assets/bootstrap-icons/font/bootstrap-icons.css"
     />
+    <style>
+      .custom-tooltip {
+        --bs-tooltip-bg: var(--bd-violet-bg);
+        --bs-tooltip-color: var(--bs-white);
+      }
+    </style>
     <title>Dashboard</title>
   </head>
   <body>
@@ -308,13 +314,23 @@
         <div>
           <div class="header my-4">
             <h1>Task Tracking</h1>
-            <button
-              class="btn btn-primary me-2"
-              data-bs-toggle="modal"
-              data-bs-target="#new-task-form"
-            >
-              <i class="bi bi-plus-square me-2"></i> Add a new task
-            </button>
+            <div>
+              <button
+                class="btn btn-primary me-2"
+                data-bs-toggle="modal"
+                data-bs-target="#new-task-form"
+              >
+                <i class="bi bi-plus-square me-2"></i> Add task
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary me-2"
+                title="Export Tasks"
+                onclick="exportToPDF()"
+              >
+                <i class="bi bi-file-arrow-down"></i>
+              </button>
+            </div>
           </div>
           <div class="tasks">
             <div class="tasks-group to-do">

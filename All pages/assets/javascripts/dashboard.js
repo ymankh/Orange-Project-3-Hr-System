@@ -156,7 +156,6 @@ function createActionCard(action) {
 
 let activity_section = document.getElementById("recent-activities");
 let actions = (localStorage.actions && JSON.parse(localStorage.actions)) || [];
-console.log(actions);
 actions.sort((a, b) => new Date(b.date) - new Date(a.date));
 
 actions.slice(0, Math.max(actions.length, 4)).forEach((action) => {

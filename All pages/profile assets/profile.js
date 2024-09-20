@@ -7,7 +7,6 @@ async function loadProfile() {
     if (storedData) {
       // إذا كانت البيانات موجودة، قم بتحميلها من localStorage
       user = JSON.parse(storedData);
-      console.log("Data loaded from localStorage:", user);
     } else {
       // إذا لم تكن البيانات موجودة، قم بتحميلها من users.json
       const response = await fetch("profile assets/users.json");
@@ -18,7 +17,6 @@ async function loadProfile() {
         const currentUser = data.users[i];
         if (currentUser.account.is_hr) {
           user = currentUser;
-          console.log("HR User Data:", user);
           localStorage.setItem("profileData", JSON.stringify(user));
           break;
         }
@@ -44,9 +42,6 @@ function updateProfile(user) {
   // const userName = userObject.userName;
   // const email = userObject.email;
 
-  // console.log("اسم المستخدم:", userName);
-  // console.log("البريد الإلكتروني:", email);
-
   document.getElementById("first_name").innerText = userObject.userName;
   document.getElementById("profileEmail").innerText = userObject.email;
 
@@ -62,15 +57,15 @@ function updateProfile(user) {
   document.getElementById("profileCity").innerText =
     user.personal_information.city;
 
-    const educationContainer = document.getElementById("profileEducation");
-    educationContainer.innerHTML = "";
-    
-    user.education.reverse().forEach((edu) => {
-      const eduDiv = document.createElement("div");
-      eduDiv.innerHTML = `<span>${edu.date}</span><p>${edu.description}</p>`;
-      educationContainer.appendChild(eduDiv);
-    });
-    
+  const educationContainer = document.getElementById("profileEducation");
+  educationContainer.innerHTML = "";
+
+  user.education.reverse().forEach((edu) => {
+    const eduDiv = document.createElement("div");
+    eduDiv.innerHTML = `<span>${edu.date}</span><p>${edu.description}</p>`;
+    educationContainer.appendChild(eduDiv);
+  });
+
   document.getElementById("jobTitle").innerText = user.job.job_title;
   document.getElementById("jobTitle1").innerText = user.job.job_title;
   document.getElementById("department").innerText = user.job.department;
@@ -92,13 +87,9 @@ if (loggedInUser) {
   const userName = userObject.userName;
   const email = userObject.email;
 
-  console.log("اسم المستخدم:", userName);
-  console.log("البريد الإلكتروني:", email);
-
   document.getElementById("first_name").innerText = userObject.userName;
   document.getElementById("profileEmail").innerText = userObject.email;
 }
 
 // تنفيذ تحميل الملف
 loadProfile();
-console.log(localStorage.getItem("profileData"));
