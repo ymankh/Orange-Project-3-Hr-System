@@ -3,10 +3,9 @@ section.bg-light.py-5.py-xl-8 {
 }
 .navbar-dark .navbar-nav .nav-link {
   color: #fff !important;
-  
 }
 .navbar-dark .navbar-nav .nav-link:hover {
-  color:  #4291af  !important;
+  color: #4291af !important;
 }
 .btn-primary {
   color: #fff;
@@ -15,13 +14,13 @@ section.bg-light.py-5.py-xl-8 {
 }
 
 .btn-outline-primary {
-  color:  #4291af !important;
+  color: #4291af !important;
   border-color: #4291af !important;
 }
 .btn-outline-primary:hover {
-  color:  #fff !important;
+  color: #fff !important;
   border-color: #4291af !important;
-  background-color:#4291af !important ;
+  background-color: #4291af !important ;
 }
 
 /* Carousel styling */
@@ -439,8 +438,6 @@ ul {
   text-align: center;
 }
 
-
-
 /* about us */
 .custom-img {
   width: 100%;
@@ -448,7 +445,7 @@ ul {
   max-height: none; /* Removes any maximum height limit */
   object-fit: cover; /* Ensures the image covers the container proportionally */
 }
-.big-font{
+.big-font {
   font-size: 18px;
 }
 /*** Team Start ***/
@@ -459,11 +456,14 @@ section.bg-light.py-3.py-md-5.py-xl-8 {
   color: #003366;
   font-weight: 400;
 }
+.card {
+  transition: 300ms;
+}
 .card:hover {
   background-color: #f8f9fa; /* Change to your desired background color */
   transform: translateY(
-    -5px
-  ); /*
+    -10px
+  ) scale(1.05); /*
   transition: all 0.3s ease; /* Smooth transition for the effect */
 }
 .img-container {
