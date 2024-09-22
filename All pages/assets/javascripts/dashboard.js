@@ -158,7 +158,9 @@ let activity_section = document.getElementById("recent-activities");
 let actions = (localStorage.actions && JSON.parse(localStorage.actions)) || [];
 actions.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-actions.slice(0, Math.max(actions.length, 4)).forEach((action) => {
+let displayed_actions = actions.slice(0, Math.min(actions.length, 4));
+displayed_actions
+.forEach((action) => {
   let action_card = createActionCard(action);
   activity_section.appendChild(action_card);
 });

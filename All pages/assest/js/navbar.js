@@ -1,10 +1,7 @@
-
 document.addEventListener("DOMContentLoaded", () => {
-  
   // Check the login status on page load
   const isLoggedIn = localStorage.getItem("loggedIn") === "true";
   checkLoginStatus(isLoggedIn);
-
 
   // if there are any masseges, disply them
   if (localStorage.message) {
@@ -34,7 +31,8 @@ function checkLoginStatus(isLoggedIn) {
     document.getElementById("register").style.display = "none";
     document.getElementById("logout").style.display = "block";
   } else {
-    document.getElementById("service").parentElement.remove();
+    let services = document.getElementById("service");
+    if (services) document.getElementById("service").parentElement.remove();
     document.getElementById("services").parentElement.remove();
     document.getElementById("profile-info").style.display = "none";
     document.getElementById("login").style.display = "block";
@@ -49,5 +47,5 @@ function logout() {
   checkLoginStatus(false);
   window.location.href = "../../../index.html";
 }
-
-document.getElementById("logout").addEventListener("click", logout);
+let logoutBtn = document.getElementById("logout");
+if (logoutBtn) logoutBtn.addEventListener("click", logout);

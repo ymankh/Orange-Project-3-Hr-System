@@ -6,10 +6,10 @@ window.onscroll = function () {
     btn.style.display = "none";
   }
 };
-btn.onclick = function () {
-  scroll({
-    top: 0,
-    left: 0,
-    behavior: "smooth",
-  });
-};
+// btn.onclick = function () {
+//   scroll({
+//     top: 0,
+//     left: 0,
+//     behavior: "smooth",
+//   });
+// };

@@ -1,4 +1,4 @@
-const loginForm = document.querySelector("#login");
+const loginForm = document.querySelector("#login-form");
 const emailInput = document.querySelector("#email");
 const passwordInput = document.querySelector("#password");
 const rememberMeCheckbox = document.querySelector(".remember-forgot input");
