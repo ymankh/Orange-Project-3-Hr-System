@@ -14,7 +14,7 @@ Welcome to the Mock HR and Task Management System project. This system has been 
 ## Live Demo
 
 Experience the live demo of the project by visiting the following link:  
-[Live Demo](https://beautiful-biscuit-d7c023.netlify.app)
+[Live Demo](https://mochr.netlify.app)
 
 ## Design
 
