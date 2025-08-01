@@ -1,4 +1,4 @@
-// Fill the table with the employees data.
+// Fill the table with the data.
 let table_body;
 let table_head;
 let data;
