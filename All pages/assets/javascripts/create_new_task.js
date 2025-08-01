@@ -123,7 +123,7 @@ getData();
 function addTaskToLocalStorage(task) {
   if (editMode) {
     task.id = editedTaskId;
-    let oldTask = tasks[editedTaskId];
+    let oldTask = tasks.find(t => t.id === editedTaskId);
     if (oldTask.status !== task.status) {
       deleteTaskCard(oldTask);
       addTaskToPage(task);
@@ -131,15 +131,23 @@ function addTaskToLocalStorage(task) {
     } else {
       editTaskCard(task);
     }
-    tasks[editedTaskId] = task;
+    tasks = tasks.map(t => t.id === editedTaskId ? task : t);
   } else {
-    task.id = tasks.length;
+    task.id = getNewTaskId();
     tasks.push(task);
     addTaskToPage(task);
     addAction("Create New Task", "Create the new task " + task.taskTitle);
   }
   localStorage.tasks = JSON.stringify(tasks);
   // Display the new task on the page.
+}
+
+function getNewTaskId() {
+  if (tasks.length === 0) {
+    return 1;
+  }
+  const maxId = Math.max(...tasks.map(task => task.id));
+  return maxId + 1;
 }
 
 

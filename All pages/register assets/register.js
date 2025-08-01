@@ -15,7 +15,7 @@ form.addEventListener("submit", (e) => {
     let userinfo = {
       userName: document.getElementById("userName").value,
       email: document.getElementById("email").value,
-      password: btoa(document.getElementById("password").value),
+      password: document.getElementById("password").value,
     };
     let users = JSON.parse(localStorage.getItem("usersData"));
 

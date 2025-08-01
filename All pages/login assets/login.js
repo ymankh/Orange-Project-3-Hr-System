@@ -16,7 +16,7 @@ loginForm.addEventListener("submit", function (event) {
   event.preventDefault(); // Prevent page reload
 
   const userEmail = emailInput.value;
-  const userPassword = btoa(passwordInput.value); // Encrypt password
+  const userPassword = passwordInput.value;
 
   const users = JSON.parse(localStorage.getItem("usersData"));
 

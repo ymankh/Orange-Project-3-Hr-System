@@ -37,13 +37,25 @@ function populateData() {
     );
 
   // Sort the rows in the table if a search option has been selected
-  if (sortOption)
+  if (sortOption) {
     table_data.sort((a, b) => {
-      if (sortOption === "Hire Date")
-        return new Date(b["Hire Date"]) - new Date(a["Hire Date"]);
-      if (a[sortOption] < b[sortOption]) return -1;
-      if (a[sortOption] >= b[sortOption]) return 1;
+      let aValue = a[sortOption];
+      let bValue = b[sortOption];
+
+      if (sortOption === "Hire Date") {
+        aValue = new Date(aValue);
+        bValue = new Date(bValue);
+      }
+
+      if (aValue < bValue) {
+        return sortDirection === 'asc' ? -1 : 1;
+      }
+      if (aValue > bValue) {
+        return sortDirection === 'asc' ? 1 : -1;
+      }
+      return 0;
     });
+  }
   //  clean the table body before inserting the data
   table_body.innerHTML = "";
   table_data.forEach((element) => {
@@ -67,6 +79,8 @@ function createTd(value) {
 }
 
 // create table heading element
+let sortDirection = 'asc';
+
 function createTh(value, sortable) {
   let th = document.createElement("th");
   th.innerText = value[0];
@@ -74,10 +88,28 @@ function createTh(value, sortable) {
   th.value = 0;
   if (sortable)
     th.addEventListener("click", (event) => {
+      if (sortOption === value[1]) {
+        sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+      } else {
+        sortDirection = 'asc';
+      }
       sortOption = value[1];
       populateData();
+      addSortArrow(th);
     });
   return th;
+}
+
+function addSortArrow(th) {
+  document.querySelectorAll("th i").forEach((element) => {
+    element.classList.remove("bi-arrow-up", "bi-arrow-down");
+  });
+  let icon = th.querySelector("i");
+  if (!icon) {
+    icon = document.createElement("i");
+    th.appendChild(icon);
+  }
+  icon.classList.add("bi", sortDirection === "asc" ? "bi-arrow-up" : "bi-arrow-down");
 }
 
 function createHeadings() {

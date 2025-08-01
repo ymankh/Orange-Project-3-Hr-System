@@ -164,3 +164,37 @@ displayed_actions
   let action_card = createActionCard(action);
   activity_section.appendChild(action_card);
 });
+
+const employeesTableOption = document.getElementById("employees-table-option");
+const tasksTableOption = document.getElementById("tasks-table-option");
+const leavesTableOption = document.getElementById("leaves-table-option");
+
+const employeeTable = document.getElementById("employee-table");
+const tasksTable = document.getElementById("tasks-table");
+const leavesTable = document.getElementById("leaves-table");
+
+const tables = [employeeTable, tasksTable, leavesTable];
+const options = [employeesTableOption, tasksTableOption, leavesTableOption];
+
+function switchTable(selectedTable, selectedOption) {
+  tables.forEach(table => table.classList.add("d-none"));
+  options.forEach(option => option.classList.remove("active"));
+
+  selectedTable.classList.remove("d-none");
+  selectedOption.classList.add("active");
+}
+
+employeesTableOption.addEventListener("click", () => {
+  switchTable(employeeTable, employeesTableOption);
+  import("./employee_table.js");
+});
+
+tasksTableOption.addEventListener("click", () => {
+  switchTable(tasksTable, tasksTableOption);
+  import("./tasks_table.js");
+});
+
+leavesTableOption.addEventListener("click", () => {
+  switchTable(leavesTable, leavesTableOption);
+  import("./leaves_table.js");
+});
