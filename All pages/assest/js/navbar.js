@@ -36,21 +36,33 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function checkLoginStatus(isLoggedIn) {
+  const elements = {
+    service: document.getElementById("service"),
+    services: document.getElementById("services"),
+    profile: document.getElementById("profile-info"),
+    login: document.getElementById("login"),
+    register: document.getElementById("register"),
+    logout: document.getElementById("logout"),
+  };
+  const setVisible = (element, visible) => {
+    if (element) element.style.display = visible ? "block" : "none";
+  };
+
   if (isLoggedIn) {
-    document.getElementById("service").style.display = "block";
-    document.getElementById("services").style.display = "block";
-    document.getElementById("profile-info").style.display = "block";
-    document.getElementById("login").style.display = "none";
-    document.getElementById("register").style.display = "none";
-    document.getElementById("logout").style.display = "block";
+    setVisible(elements.service, true);
+    setVisible(elements.services, true);
+    setVisible(elements.profile, true);
+    setVisible(elements.login, false);
+    setVisible(elements.register, false);
+    setVisible(elements.logout, true);
   } else {
-    let services = document.getElementById("service");
-    if (services) document.getElementById("service").parentElement.remove();
-    document.getElementById("services").parentElement.remove();
-    document.getElementById("profile-info").style.display = "none";
-    document.getElementById("login").style.display = "block";
-    document.getElementById("register").style.display = "block";
-    document.getElementById("logout").style.display = "none";
+    const isLoginPage = window.location.pathname.toLowerCase().endsWith("/login.html");
+    setVisible(elements.service, false);
+    setVisible(elements.services, false);
+    setVisible(elements.profile, false);
+    setVisible(elements.logout, false);
+    setVisible(elements.login, !isLoginPage);
+    setVisible(elements.register, isLoginPage);
   }
 }
 
