@@ -4,7 +4,7 @@ function createCard() {
   var feedbackContainer = document.getElementById("feedbackContainer");
 
   // Clear existing content in feedback container
-  feedbackContainer.innerHTML = '';
+  feedbackContainer.replaceChildren();
 
   entries.forEach(function (entry) {
     var email = entry.Email;
@@ -14,9 +14,12 @@ function createCard() {
       // Append new feedback to the existing card
       var card = emailToCardsMap[email][0]; // Get the first card
       var feedbackText = document.createElement("p");
-      feedbackText.innerHTML = `<strong>Subject:</strong> ${entry.Subject}<br>${entry.Message}`;
-      card.querySelector('.FeedbackText').appendChild(feedbackText);
-      document.querySelector('.FeedbackText').style.paddingTop='30px';
+      const subject = document.createElement("strong");
+      subject.textContent = `Subject: ${entry.Subject}`;
+      feedbackText.append(subject, document.createElement("br"), entry.Message);
+      const textContainer = card.querySelector(".FeedbackText");
+      textContainer.appendChild(feedbackText);
+      textContainer.style.paddingTop = "30px";
     } else {
       // Create a new card
       var card = document.createElement("div");
@@ -31,17 +34,27 @@ function createCard() {
       // Feedback text
       var feedbackText = document.createElement("div");
       feedbackText.className = "FeedbackText";
-      feedbackText.innerHTML = `<h3>${entry.Subject}</h3>
-                                <p>${entry.Message}</p>`;
+      const heading = document.createElement("h3");
+      const message = document.createElement("p");
+      heading.textContent = entry.Subject;
+      message.textContent = entry.Message;
+      feedbackText.append(heading, message);
       card.appendChild(feedbackText);
 
       // Card titles
       var cardTitles = document.createElement("div");
       cardTitles.className = "CardTitles";
-      cardTitles.innerHTML = `<p>${entry.Name}</p>
-                              <a href="#">${entry.Title}</a>
-                              <p class="email">${entry.Email}</p>
-                              <p class="dateNN">${new Date(entry.Date).toLocaleString()}</p>`;
+      const name = document.createElement("p");
+      const title = document.createElement("p");
+      const email = document.createElement("p");
+      const date = document.createElement("p");
+      name.textContent = entry.Name;
+      title.textContent = entry.Title;
+      email.className = "email";
+      email.textContent = entry.Email;
+      date.className = "dateNN";
+      date.textContent = new Date(entry.Date).toLocaleString();
+      cardTitles.append(name, title, email, date);
       card.appendChild(cardTitles);
 
       // Add the card to the feedback container
