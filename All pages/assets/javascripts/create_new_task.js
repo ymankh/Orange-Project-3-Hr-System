@@ -140,6 +140,7 @@ function addTaskToLocalStorage(task) {
     addAction("Create New Task", "Create the new task " + task.taskTitle);
   }
   localStorage.tasks = JSON.stringify(tasks);
+  updateTaskCounters();
   // Display the new task on the page.
 }
 
@@ -258,14 +259,16 @@ function createTaskCard(task) {
 function addTaskToPage(task) {
   const tasksGroup = document.querySelector(`.tasks-group.${task.status}`);
   const taskContainer = tasksGroup.querySelector(".tasks-container");
-  const taskGroupHeder = tasksGroup.querySelector(".tasks-group-header span");
   const taskCard = createTaskCard(task);
 
   taskContainer.appendChild(taskCard);
+}
 
-  // For the tasks counter in each groupF.
-  const taskCounter = taskGroupHeder.textContent.replace(/[^\d]/g, "");
-  taskGroupHeder.textContent = `(${+taskCounter + 1})`;
+function updateTaskCounters() {
+  ["to-do", "in-progress", "on-hold", "completed", "canceled"].forEach((status) => {
+    const counter = document.getElementById(`${status}-tasks-count`);
+    if (counter) counter.textContent = `(${tasks.filter((task) => task.status === status).length})`;
+  });
 }
 
 function fillFormWithTaskData(task) {
@@ -284,6 +287,7 @@ function fillFormWithTaskData(task) {
 tasks.forEach((task) => {
   addTaskToPage(task);
 });
+updateTaskCounters();
 
 // reset form when modal is closed
 modal.addEventListener("hidden.bs.modal", () => {
