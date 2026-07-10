@@ -1,7 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll("a:has(.fa-facebook-f)").forEach((link) => link.setAttribute("aria-label", "Facebook"));
-  document.querySelectorAll("a:has(.fa-twitter)").forEach((link) => link.setAttribute("aria-label", "Twitter"));
-  document.querySelectorAll("a:has(.fa-google)").forEach((link) => link.setAttribute("aria-label", "Google"));
+  const socialLinks = [
+    [".fa-facebook-f", "Facebook", "https://www.facebook.com/"],
+    [".fa-twitter", "Twitter", "https://twitter.com/"],
+    [".fa-google", "Google", "https://www.google.com/"],
+  ];
+  socialLinks.forEach(([icon, label, url]) => {
+    document.querySelectorAll(`a:has(${icon})`).forEach((link) => {
+      link.href = url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.setAttribute("aria-label", label);
+    });
+  });
   // Check the login status on page load
   const isLoggedIn = Boolean(window.demoAuth?.currentUser());
   checkLoginStatus(isLoggedIn);
