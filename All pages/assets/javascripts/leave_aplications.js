@@ -199,7 +199,7 @@ let filterInput = document.getElementById("filter");
 try {
   filterInput.addEventListener("input", (e) => {
     filter = filterInput.value.toLowerCase();
-    filterTable(filter);
+    filterTable(table, filter);
   });
 } catch (error) {
   console.warn("Couldn't find the filter for the table.");

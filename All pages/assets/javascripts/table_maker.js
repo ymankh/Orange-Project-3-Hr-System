@@ -1,127 +1,121 @@
-// Fill the table with the data.
-let table_body;
-let table_head;
-let data;
-let filter;
-let table_heading;
-let sortOption;
+const tableStates = new WeakMap();
 
-function filterTable(data_filter) {
-  filter = data_filter;
-  populateData();
+function filterTable(table, filter) {
+  const state = getState(table);
+  state.filter = filter;
+  populateData(table);
 }
 
-function createTable(table, table_data, table_headings) {
-  if (!table || table.tagName !== "TABLE")
+function createTable(table, data, headings) {
+  if (!table || table.tagName !== "TABLE") {
     throw new Error("The provided table is not a table");
+  }
 
-  table_body = table.querySelector("tbody");
-  table_head = table.querySelector("thead");
-  data = table_data;
-  table_heading = table_headings;
+  const previous = tableStates.get(table);
+  tableStates.set(table, {
+    body: table.querySelector("tbody"),
+    head: table.querySelector("thead"),
+    data: Array.isArray(data) ? data : [],
+    headings,
+    filter: previous?.filter || "",
+    sortOption: previous?.sortOption || null,
+    sortDirection: previous?.sortDirection || "asc",
+  });
 
-  createHeadings();
-  populateData();
+  createHeadings(table);
+  populateData(table);
 }
 
-function populateData() {
-  let i = 1;
-  let table_data = data;
+function getState(table) {
+  const state = tableStates.get(table);
+  if (!state) throw new Error("The table has not been initialized");
+  return state;
+}
 
-  // Filter the data filter word has been provided
-  if (filter)
-    table_data = data.filter((value) =>
-      table_heading
-        .map((heading) => value[heading[1]])
-        .some((value) => String(value).toLocaleLowerCase().includes(filter))
+function populateData(table) {
+  const state = getState(table);
+  let tableData = [...state.data];
+
+  if (state.filter) {
+    tableData = tableData.filter((row) =>
+      state.headings
+        .map((heading) => row[heading[1]])
+        .some((value) => String(value ?? "").toLocaleLowerCase().includes(state.filter))
     );
+  }
 
-  // Sort the rows in the table if a search option has been selected
-  if (sortOption) {
-    table_data.sort((a, b) => {
-      let aValue = a[sortOption];
-      let bValue = b[sortOption];
-
-      if (sortOption === "Hire Date") {
-        aValue = new Date(aValue);
-        bValue = new Date(bValue);
+  if (state.sortOption) {
+    tableData.sort((left, right) => {
+      let leftValue = left[state.sortOption];
+      let rightValue = right[state.sortOption];
+      if (state.sortOption === "Hire Date") {
+        leftValue = new Date(leftValue);
+        rightValue = new Date(rightValue);
       }
-
-      if (aValue < bValue) {
-        return sortDirection === 'asc' ? -1 : 1;
-      }
-      if (aValue > bValue) {
-        return sortDirection === 'asc' ? 1 : -1;
-      }
-      return 0;
+      const direction = state.sortDirection === "asc" ? 1 : -1;
+      return leftValue < rightValue ? -direction : leftValue > rightValue ? direction : 0;
     });
   }
-  //  clean the table body before inserting the data
-  table_body.innerHTML = "";
-  table_data.forEach((element) => {
-    let tr = document.createElement("tr");
-    if (element.id) tr.id = element.id;
-    let row = [
-      createTd(i),
-      ...table_heading.map((heading) => createTd(element[heading[1]])),
-    ];
-    row.forEach((element) => tr.appendChild(element));
-    table_body.appendChild(tr);
-    i++;
+
+  state.body.replaceChildren();
+  tableData.forEach((row, index) => {
+    const tr = document.createElement("tr");
+    if (row.id !== undefined && row.id !== null) tr.id = row.id;
+    [createTd(index + 1), ...state.headings.map((heading) => createTd(row[heading[1]]))]
+      .forEach((cell) => tr.appendChild(cell));
+    state.body.appendChild(tr);
   });
 }
 
-// Create table data cell
 function createTd(value) {
-  let td = document.createElement("td");
-  td.innerText = value;
+  const td = document.createElement("td");
+  td.textContent = value ?? "";
   return td;
 }
 
-// create table heading element
-let sortDirection = 'asc';
+function createTh(table, heading, sortable = false) {
+  const th = document.createElement("th");
+  th.textContent = Array.isArray(heading) ? heading[0] : heading;
+  if (!sortable) return th;
 
-function createTh(value, sortable) {
-  let th = document.createElement("th");
-  th.innerText = value[0];
-  th.id = value[0];
-  th.value = 0;
-  if (sortable)
-    th.addEventListener("click", (event) => {
-      if (sortOption === value[1]) {
-        sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
-      } else {
-        sortDirection = 'asc';
-      }
-      sortOption = value[1];
-      populateData();
-      addSortArrow(th);
-    });
+  th.tabIndex = 0;
+  th.setAttribute("role", "button");
+  const sort = () => {
+    const state = getState(table);
+    if (state.sortOption === heading[1]) {
+      state.sortDirection = state.sortDirection === "asc" ? "desc" : "asc";
+    } else {
+      state.sortDirection = "asc";
+    }
+    state.sortOption = heading[1];
+    populateData(table);
+    addSortArrow(table, th);
+  };
+  th.addEventListener("click", sort);
+  th.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      sort();
+    }
+  });
   return th;
 }
 
-function addSortArrow(th) {
-  document.querySelectorAll("th i").forEach((element) => {
-    element.classList.remove("bi-arrow-up", "bi-arrow-down");
-  });
-  let icon = th.querySelector("i");
-  if (!icon) {
-    icon = document.createElement("i");
-    th.appendChild(icon);
-  }
-  icon.classList.add("bi", sortDirection === "asc" ? "bi-arrow-up" : "bi-arrow-down");
+function addSortArrow(table, activeHeading) {
+  const state = getState(table);
+  table.querySelectorAll("th i").forEach((icon) => icon.remove());
+  const icon = document.createElement("i");
+  icon.className = `bi ${state.sortDirection === "asc" ? "bi-arrow-up" : "bi-arrow-down"}`;
+  icon.setAttribute("aria-hidden", "true");
+  activeHeading.appendChild(icon);
 }
 
-function createHeadings() {
-  let tr = document.createElement("tr");
-  table_head.innerHTML = "";
-  tr.appendChild(createTh("#"));
-  table_heading
-    .map((heading) => createTh(heading, true))
-    .forEach((th) => {
-      tr.appendChild(th);
-    });
-  table_head.appendChild(tr);
+function createHeadings(table) {
+  const state = getState(table);
+  const tr = document.createElement("tr");
+  tr.appendChild(createTh(table, "#"));
+  state.headings.forEach((heading) => tr.appendChild(createTh(table, heading, true)));
+  state.head.replaceChildren(tr);
 }
 
 export { populateData, createTable, filterTable };
