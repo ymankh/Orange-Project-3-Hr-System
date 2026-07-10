@@ -58,6 +58,15 @@ if (!bootstrap.Modal.getInstance(modal)) {
 // Set default starting date to be today
 formFields.startDate.value = new Date().toISOString().split("T")[0];
 
+function validateTaskDates() {
+  formFields.dueDate.min = formFields.startDate.value;
+  const invalid = formFields.dueDate.value && formFields.dueDate.value < formFields.startDate.value;
+  formFields.dueDate.setCustomValidity(invalid ? "Due date must be on or after the start date." : "");
+}
+formFields.startDate.addEventListener("change", validateTaskDates);
+formFields.dueDate.addEventListener("change", validateTaskDates);
+validateTaskDates();
+
 // For selecting multiple employees.
 selectEmployee.addEventListener("change", (event) => {
   // Add the employee to the task
@@ -168,6 +177,11 @@ function deleteTaskCard(task) {
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
+  validateTaskDates();
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
 
   // Get the data from the form
   let taskData = {

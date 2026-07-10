@@ -9,6 +9,16 @@ const jopTitle = document.getElementById("jop-title");
 const department = document.getElementById("department");
 const startDate = document.getElementById("startDate");
 startDate.value = new Date().toISOString().split("T")[0];
+const endDate = document.getElementById("endDate");
+
+function validateLeaveDates() {
+  endDate.min = startDate.value;
+  const invalid = endDate.value && endDate.value < startDate.value;
+  endDate.setCustomValidity(invalid ? "End date must be on or after the start date." : "");
+}
+startDate.addEventListener("change", validateLeaveDates);
+endDate.addEventListener("change", validateLeaveDates);
+validateLeaveDates();
 let leaves = (localStorage.leaves && JSON.parse(localStorage.leaves)) || [];
 const table = document.querySelector("table");
 let user;
@@ -136,6 +146,11 @@ function updateLeave(leave) {
 
 addEmployeeForm.addEventListener("submit", (event) => {
   event.preventDefault();
+  validateLeaveDates();
+  if (!addEmployeeForm.checkValidity()) {
+    addEmployeeForm.reportValidity();
+    return;
+  }
   // Get the data from the form
   const formData = {
     employeeId: formFields.employeeNameSelect.value,
