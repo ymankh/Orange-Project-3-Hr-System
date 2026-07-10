@@ -58,6 +58,16 @@ function populateData(table) {
   }
 
   state.body.replaceChildren();
+  if (tableData.length === 0) {
+    const row = document.createElement("tr");
+    const cell = document.createElement("td");
+    cell.colSpan = state.headings.length + 1;
+    cell.className = "text-center text-muted py-4";
+    cell.textContent = state.filter ? "No matching records found." : "No records available.";
+    row.appendChild(cell);
+    state.body.appendChild(row);
+    return;
+  }
   tableData.forEach((row, index) => {
     const tr = document.createElement("tr");
     if (row.id !== undefined && row.id !== null) tr.id = row.id;

@@ -6,6 +6,14 @@ function createCard() {
   // Clear existing content in feedback container
   feedbackContainer.replaceChildren();
 
+  if (entries.length === 0) {
+    const emptyState = document.createElement("p");
+    emptyState.className = "text-center text-muted py-5";
+    emptyState.textContent = "No feedback has been submitted yet.";
+    feedbackContainer.appendChild(emptyState);
+    return;
+  }
+
   entries.forEach(function (entry) {
     var email = entry.Email;
 
