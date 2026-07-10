@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("a:has(.fa-facebook-f)").forEach((link) => link.setAttribute("aria-label", "Facebook"));
+  document.querySelectorAll("a:has(.fa-twitter)").forEach((link) => link.setAttribute("aria-label", "Twitter"));
+  document.querySelectorAll("a:has(.fa-google)").forEach((link) => link.setAttribute("aria-label", "Google"));
   // Check the login status on page load
-  const isLoggedIn = localStorage.getItem("loggedIn") === "true";
+  const isLoggedIn = Boolean(window.demoAuth?.currentUser());
   checkLoginStatus(isLoggedIn);
 
   // if there are any masseges, disply them
@@ -42,10 +45,7 @@ function checkLoginStatus(isLoggedIn) {
 }
 
 function logout() {
-  // Simulate a logout process without deleting user data
-  localStorage.setItem("loggedIn", "false");
-  checkLoginStatus(false);
-  window.location.href = "../../../index.html";
+  window.demoAuth?.logout();
 }
 let logoutBtn = document.getElementById("logout");
 if (logoutBtn) logoutBtn.addEventListener("click", logout);

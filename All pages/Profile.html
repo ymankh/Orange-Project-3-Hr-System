@@ -42,7 +42,7 @@
       href="https://unpkg.com/bs-brain@2.0.4/components/heroes/hero-5/assets/css/hero-5.css"
     />
   </head>
-  <body>
+  <body data-requires-auth="true">
     <!-- Navbar -->
 
     <header>
@@ -167,7 +167,7 @@
           </div>
           <button
             class="edit-profile"
-            onclick="window.location.href='Edit Profile.html'"
+            onclick="window.location.href='edit-profile.html'"
           >
             <i class="bx bx-edit-alt"></i> Edit Profile
           </button>
@@ -314,6 +314,7 @@
     </footer>
     <!-- end of footer -->
     <!-- Navbar -->
+    <script src="assets/javascripts/demo-auth.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assest/js/navbar.js"></script>
     <script src="assest/js/home-about.js"></script>

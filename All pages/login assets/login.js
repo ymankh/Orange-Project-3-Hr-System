@@ -51,8 +51,7 @@ loginForm.addEventListener("submit", async function (event) {
         }
 
         // Set loggedIn status to true upon successful login
-        localStorage.setItem("loggedIn", "true");
-        localStorage.setItem("userEmail", userEmail); // Store user email for later retrieval
+        demoAuth.login(loggedInUser);
         localStorage.setItem(
           "message",
           `Hello, ${loggedInUser.userName}! Welcome here!`
