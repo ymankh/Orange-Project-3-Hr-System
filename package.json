@@ -1,0 +1,8 @@
+{
+  "name": "gateway-hr-demo",
+  "private": true,
+  "scripts": {
+    "check": "node scripts/check-project.mjs",
+    "test": "npm run check"
+  }
+}
