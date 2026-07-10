@@ -37,7 +37,13 @@ To set up the project locally, follow these steps:
     ```
 2. Navigate to the project directory:
 
-3. Open `index.html` in your preferred web browser to view the application.
+3. Serve the repository over HTTP (required for JSON loading and ES modules):
+
+    ```bash
+    npx serve .
+    ```
+
+4. Open the local URL printed by the server. Deploy the contents at the web root because the demo intentionally uses root-relative navigation links.
 
 ## Contributing
 
