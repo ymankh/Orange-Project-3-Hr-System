@@ -8,7 +8,7 @@ Validation baseline: `npm test` passes, but this scan found gaps that the curren
 
 ## Critical Issues
 
-### 1. Shared back-to-top script crashes on pages without its button
+### 1. Shared back-to-top script crashes on pages without its button — Resolved
 
 - **Category:** Important
 - **Fix type:** Component fix
@@ -16,7 +16,7 @@ Validation baseline: `npm test` passes, but this scan found gaps that the curren
 - **Impact:** Scrolling Profile, Feedback, Services, Privacy Policy, or Edit Profile throws a runtime error.
 - **Suggested fix:** Make the handler null-safe and attach the click behavior only when the control exists.
 
-### 2. Stored feedback can execute arbitrary HTML
+### 2. Stored feedback can execute arbitrary HTML — Resolved
 
 - **Category:** Critical
 - **Fix type:** Component fix
@@ -24,7 +24,7 @@ Validation baseline: `npm test` passes, but this scan found gaps that the curren
 - **Impact:** A feedback entry containing malicious markup can execute in the protected feedback page, access browser-stored HR data, and alter the demo session.
 - **Suggested fix:** Build feedback cards with DOM nodes and `textContent`. Do not insert feedback fields through `innerHTML`.
 
-### 3. The Services page loads invalid JavaScript
+### 3. The Services page loads invalid JavaScript — Resolved
 
 - **Category:** Critical
 - **Fix type:** Component fix
@@ -34,7 +34,7 @@ Validation baseline: `npm test` passes, but this scan found gaps that the curren
 
 ## Important Functional Issues
 
-### 4. Dashboard tables share mutable module-level state
+### 4. Dashboard tables share mutable module-level state — Resolved
 
 - **Category:** Important
 - **Fix type:** Component fix
@@ -42,7 +42,7 @@ Validation baseline: `npm test` passes, but this scan found gaps that the curren
 - **Impact:** Filtering, sorting, or changing columns can operate on whichever table initialized last rather than the visible table. Multiple table instances cannot work independently.
 - **Suggested fix:** Replace the singleton globals with a `TableController` instance per table, or make `createTable` return closures bound to that table and dataset.
 
-### 5. Task edit state leaks between modal sessions
+### 5. Task edit state leaks between modal sessions — Resolved
 
 - **Category:** Important
 - **Fix type:** Interaction-state fix
@@ -50,7 +50,7 @@ Validation baseline: `npm test` passes, but this scan found gaps that the curren
 - **Impact:** Previously selected employees can silently carry into new tasks, edited employees can accumulate, and hidden dropdown options may remain unavailable.
 - **Suggested fix:** Reset `selectedEmployees = []`, restore all employee options, and populate edit state from a fresh copy each time the modal opens.
 
-### 6. Moving a task during edit leaves the old status count incorrect
+### 6. Moving a task during edit leaves the old status count incorrect — Resolved
 
 - **Category:** Important
 - **Fix type:** Interaction-state fix
@@ -58,7 +58,7 @@ Validation baseline: `npm test` passes, but this scan found gaps that the curren
 - **Impact:** Task-column totals become inaccurate until the page is reloaded.
 - **Suggested fix:** Recalculate both counters from the task collection after every create, edit, and drag operation rather than incrementing DOM text manually.
 
-### 7. Leave “Edit” buttons open a blank add form
+### 7. Leave “Edit” buttons open a blank add form — Resolved
 
 - **Category:** Important
 - **Fix type:** Interaction-state fix
@@ -66,7 +66,7 @@ Validation baseline: `npm test` passes, but this scan found gaps that the curren
 - **Impact:** The visible Edit action can create a new leave instead of editing the intended row.
 - **Suggested fix:** Give each Edit button the leave ID and call one explicit `beginEdit(leaveId)` function. Avoid document-wide click inference.
 
-### 8. Internal navigation contains confirmed broken links
+### 8. Internal navigation contains confirmed broken links — Resolved
 
 - **Category:** Important
 - **Fix type:** Content fix
@@ -74,7 +74,7 @@ Validation baseline: `npm test` passes, but this scan found gaps that the curren
 - **Impact:** Several navbar/footer links lead to 404 pages.
 - **Suggested fix:** Correct the references and extend the project checker to validate every local `href` and `src` from the containing document.
 
-### 9. Authentication forms and feedback cards overflow on mobile
+### 9. Authentication forms and feedback cards overflow on mobile — Resolved
 
 - **Category:** Important
 - **Fix type:** Layout fix
@@ -82,7 +82,7 @@ Validation baseline: `npm test` passes, but this scan found gaps that the curren
 - **Impact:** Content overflows viewports below those widths, especially after padding and borders are included.
 - **Suggested fix:** Use `width: min(100% - 2rem, 600px)`, content-driven height, responsive padding, and mobile card layouts without fixed dimensions.
 
-### 10. Login, registration, and contact fields lack proper labels
+### 10. Login, registration, and contact fields lack proper labels — Resolved
 
 - **Category:** Important
 - **Fix type:** Accessibility fix
@@ -90,7 +90,7 @@ Validation baseline: `npm test` passes, but this scan found gaps that the curren
 - **Impact:** Screen-reader users lack reliable field names and error association; placeholders disappear while typing. Browser autofill behavior is also weaker without `name` and `autocomplete` metadata.
 - **Suggested fix:** Add visible labels, stable `name` attributes, correct `autocomplete` tokens, `aria-describedby`, and polite live regions for validation errors.
 
-### 11. Custom authentication controls remove focus outlines
+### 11. Custom authentication controls remove focus outlines — Resolved
 
 - **Category:** Important
 - **Fix type:** Accessibility fix
@@ -98,7 +98,7 @@ Validation baseline: `npm test` passes, but this scan found gaps that the curren
 - **Impact:** Keyboard users cannot reliably see which field or button is focused.
 - **Suggested fix:** Restore the browser outline or add a high-contrast `:focus-visible` ring that meets contrast requirements.
 
-### 12. Feedback content is hover-only and inaccessible on touch/keyboards
+### 12. Feedback content is hover-only and inaccessible on touch/keyboards — Resolved
 
 - **Category:** Important
 - **Fix type:** Accessibility fix
@@ -106,7 +106,7 @@ Validation baseline: `npm test` passes, but this scan found gaps that the curren
 - **Impact:** Touch users and keyboard-only users may be unable to reveal the feedback message.
 - **Suggested fix:** Keep feedback text visible in the normal card flow, or use an actual button controlling an expandable region with keyboard and focus support.
 
-### 13. Date ranges are not validated
+### 13. Date ranges are not validated — Resolved
 
 - **Category:** Important
 - **Fix type:** Interaction-state fix
@@ -114,7 +114,7 @@ Validation baseline: `npm test` passes, but this scan found gaps that the curren
 - **Impact:** The application accepts logically invalid tasks and leave periods.
 - **Suggested fix:** Set the end field’s `min` when the start date changes, validate again on submission, and show a field-associated error.
 
-### 14. Storage and fetch failures are handled inconsistently
+### 14. Storage and fetch failures are handled inconsistently — Resolved
 
 - **Category:** Important
 - **Fix type:** Interaction-state fix
@@ -124,7 +124,7 @@ Validation baseline: `npm test` passes, but this scan found gaps that the curren
 
 ## Maintainability and Design Smells
 
-### 15. The automated check does not validate links, HTML, or behavior
+### 15. The automated check does not validate links, HTML, or behavior — Partially resolved
 
 - **Category:** Important
 - **Fix type:** Component fix
@@ -132,7 +132,7 @@ Validation baseline: `npm test` passes, but this scan found gaps that the curren
 - **Impact:** `npm test` gives a stronger sense of safety than it currently provides.
 - **Suggested fix:** Add local-link/asset validation, HTML validation, and browser smoke tests for login, guarded routes, task editing, leave editing, feedback rendering, and dashboard table switching.
 
-### 16. Important empty/loading/error states are missing
+### 16. Important empty/loading/error states are missing — Empty states resolved
 
 - **Category:** Nice to improve
 - **Fix type:** Interaction-state fix
@@ -140,7 +140,7 @@ Validation baseline: `npm test` passes, but this scan found gaps that the curren
 - **Impact:** Empty or failed screens look broken rather than intentionally empty.
 - **Suggested fix:** Add reusable loading, empty, and error components for tables, cards, profile data, and policy content.
 
-### 17. Multiple controls and dependencies are placeholders or dead code
+### 17. Multiple controls and dependencies are placeholders or dead code — Resolved
 
 - **Category:** Nice to improve
 - **Fix type:** Content fix
