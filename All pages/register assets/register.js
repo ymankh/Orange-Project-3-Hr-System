@@ -16,7 +16,7 @@ form.addEventListener("submit", async (e) => {
         document.getElementById("password").value
       ),
     };
-    let users = JSON.parse(localStorage.getItem("usersData"));
+    let users = demoData.readArray("usersData");
 
     const isRegisteredUser = users.filter(
       (user) => user.email == document.getElementById("email").value

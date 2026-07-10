@@ -4,7 +4,7 @@ let table = document.querySelector("#leaves-table");
 let filter;
 let leavesWithEmployeesData = [];
 const url = "assets/data/employees_data.json";
-let leaves = (localStorage.leaves && JSON.parse(localStorage.leaves)) || [];
+let leaves = demoData.readArray("leaves");
 let employeeData;
 
 // Change the this array to change the table columns
@@ -18,8 +18,7 @@ let tableHeadings = [
 
 async function getEmployeeData() {
     if (!employeeData) {
-        const response = await fetch(url);
-        employeeData = await response.json();
+        employeeData = await demoData.fetchJson(url);
     }
 }
 

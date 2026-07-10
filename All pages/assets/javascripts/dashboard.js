@@ -1,4 +1,4 @@
-const tasks = (localStorage.tasks && JSON.parse(localStorage.tasks)) || [];
+const tasks = demoData.readArray("tasks");
 
 // Count tasks
 document.getElementById("to-do-tasks-count").innerText = tasks.filter(
@@ -155,7 +155,7 @@ function createActionCard(action) {
 }
 
 let activity_section = document.getElementById("recent-activities");
-let actions = (localStorage.actions && JSON.parse(localStorage.actions)) || [];
+let actions = demoData.readArray("actions");
 actions.sort((a, b) => new Date(b.date) - new Date(a.date));
 
 let displayed_actions = actions.slice(0, Math.min(actions.length, 4));

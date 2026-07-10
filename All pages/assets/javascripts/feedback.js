@@ -1,5 +1,5 @@
 function createCard() {
-  var entries = JSON.parse(localStorage.getItem("feedbackEntries")) || [];
+  var entries = demoData.readArray("feedbackEntries");
   var emailToCardsMap = {}; // Map email to an array of cards (if any)
   var feedbackContainer = document.getElementById("feedbackContainer");
 

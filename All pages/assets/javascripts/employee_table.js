@@ -16,8 +16,7 @@ let table_heading = [
 // Get the data from the json file.
 async function getData() {
   if (!data) {
-    let response = await fetch("assets/data/employees_data.json");
-    data = await response.json();
+    data = await demoData.fetchJson("assets/data/employees_data.json");
   }
 }
 

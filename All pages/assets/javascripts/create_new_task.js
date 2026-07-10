@@ -6,7 +6,7 @@ const form = document.getElementById("add-task-form");
 const selectedEmployeesSpan = document.getElementById("selected-employees");
 
 // load the tasks form the localStorage
-let tasks = (localStorage.tasks && JSON.parse(localStorage.tasks)) || [];
+let tasks = demoData.readArray("tasks");
 
 // initializing an array to hold the employees assigned to a task
 let selectedEmployees = [];
@@ -28,8 +28,7 @@ try {
 
 // Add the action to the local storage
 function addAction(actionTitle, actionBody) {
-  let actions =
-    (localStorage.actions && JSON.parse(localStorage.actions)) || [];
+  let actions = demoData.readArray("actions");
   actions.push({
     id: actions.length,
     date: new Date(),
@@ -111,8 +110,7 @@ function selectEmployeeToTheTask(employeeName) {
 
 // Get the employee data from the Json file
 async function getData() {
-  const response = await fetch(url);
-  const jsonData = await response.json();
+  const jsonData = await demoData.fetchJson(url);
 
   // Add the employee names as option to the select input
   function addEmployeeToTheSelect(employee) {

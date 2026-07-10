@@ -19,7 +19,7 @@ loginForm.addEventListener("submit", async function (event) {
   const userEmail = emailInput.value;
   const userPassword = passwordInput.value;
 
-  const users = JSON.parse(localStorage.getItem("usersData"));
+  const users = demoData.readArray("usersData");
 
   if (users) {
     const isValidUser = users.filter((user) => user.email == userEmail);

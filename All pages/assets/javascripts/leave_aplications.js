@@ -19,7 +19,7 @@ function validateLeaveDates() {
 startDate.addEventListener("change", validateLeaveDates);
 endDate.addEventListener("change", validateLeaveDates);
 validateLeaveDates();
-let leaves = (localStorage.leaves && JSON.parse(localStorage.leaves)) || [];
+let leaves = demoData.readArray("leaves");
 const table = document.querySelector("table");
 let user;
 try {
@@ -29,8 +29,7 @@ try {
 }
 
 function addAction(actionTitle, actionBody) {
-  let actions =
-    (localStorage.actions && JSON.parse(localStorage.actions)) || [];
+  let actions = demoData.readArray("actions");
   actions.push({
     id: actions.length,
     date: new Date(),
@@ -73,8 +72,7 @@ let tableHeadings = [
 let employeeData;
 
 async function getEmployeeData() {
-  const response = await fetch(url);
-  employeeData = await response.json();
+  employeeData = await demoData.fetchJson(url);
 }
 async function addEmployeeNamesOptions() {
   if (!employeeData) {

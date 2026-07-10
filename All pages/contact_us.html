@@ -616,6 +616,7 @@
   </footer>
 
 
+  <script src="assets/javascripts/data-utils.js"></script>
   <script src="assets/javascripts/bootstrap.js"></script>
   <script src="assets/javascripts/popper.min.js"></script>
   <script src="assets/javascripts/demo-auth.js"></script>
@@ -647,7 +648,7 @@
         Gender: document.getElementById('male').checked ? 'Male' : 'Female',
         Date: new Date().toISOString()
       };
-      var entries = JSON.parse(localStorage.getItem('feedbackEntries')) || [];
+      var entries = demoData.readArray('feedbackEntries');
       entries.push(formEntry);
       localStorage.setItem('feedbackEntries', JSON.stringify(entries));
       const myModal = document.getElementById('exampleModal')
