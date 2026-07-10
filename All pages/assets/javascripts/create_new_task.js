@@ -66,6 +66,7 @@ selectEmployee.addEventListener("change", (event) => {
 });
 
 function selectEmployeeToTheTask(employeeName) {
+  if (!employeeName || selectedEmployees.includes(employeeName)) return;
   selectedEmployees.push(employeeName);
 
   // Create a badge to display the selected employee
@@ -188,7 +189,12 @@ form.addEventListener("submit", (event) => {
 function restForm() {
   form.reset();
   formFields.startDate.value = new Date().toISOString().split("T")[0];
-  selectedEmployeesSpan.innerHTML = "";
+  selectedEmployees = [];
+  selectedEmployeesSpan.replaceChildren();
+  [...selectEmployee.options].forEach((option) => {
+    option.style.display = "";
+  });
+  selectEmployee.required = true;
 }
 
 function createTaskCard(task) {
