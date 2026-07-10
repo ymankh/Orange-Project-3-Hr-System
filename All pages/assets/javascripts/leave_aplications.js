@@ -185,7 +185,7 @@ async function populateLeavesData() {
   createTable(table, leavesWithEmployeesData, tableHeadings);
   for (const tr of document.getElementsByTagName("tr")) {
     if (tr.id) {
-      tr.appendChild(createEditButtons());
+      tr.appendChild(createEditButtons(tr.id));
     }
     else{
       let th = document.createElement("th");
@@ -265,17 +265,14 @@ function populateLeaveForm(leave) {
   formFields.reason.value = leave.reason;
 }
 
-document.addEventListener("click", (event) => {
-  // git the parent of the target element
-  const target = event.target.parentNode;
-  if (target.tagName === "TR") {
-    editMode = true;
-    editLeave = target.id;
-    let leave = leaves.find((leave) => leave.id === editLeave);
-    populateLeaveForm(leave);
-    bootstrap.Modal.getInstance(modal).show();
-  }
-});
+function beginEdit(leaveId) {
+  const leave = leaves.find((item) => item.id === leaveId);
+  if (!leave) return;
+  editMode = true;
+  editLeave = leaveId;
+  populateLeaveForm(leave);
+  bootstrap.Modal.getInstance(modal).show();
+}
 
 modal.addEventListener("show.bs.modal", () => {
   if (editMode) {
@@ -303,13 +300,11 @@ function resetForm() {
 
 
 // Add the buttons to the table
-function createEditButtons() {
+function createEditButtons(leaveId) {
   const editButton = document.createElement("button");
   editButton.className = "btn btn-primary";
   editButton.textContent = "Edit";
-  editButton.addEventListener("click", () => {
-    bootstrap.Modal.getInstance(modal).show();
-  });
+  editButton.addEventListener("click", () => beginEdit(leaveId));
   let td = document.createElement("td")
   td.appendChild(editButton);
   return td;
