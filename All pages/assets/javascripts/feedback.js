@@ -24,6 +24,9 @@ function createCard() {
       // Create a new card
       var card = document.createElement("div");
       card.className = "FullCard";
+      card.tabIndex = 0;
+      card.setAttribute("role", "group");
+      card.setAttribute("aria-label", `Feedback from ${entry.Name}`);
 
       // Profile image
       var profileImage = document.createElement("img");

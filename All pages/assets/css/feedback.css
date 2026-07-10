@@ -60,7 +60,9 @@ h1 {
   overflow: auto;
 }
 
-.FullCard:hover .FeedbackText {
+.FullCard:hover .FeedbackText,
+.FullCard:focus .FeedbackText,
+.FullCard:focus-within .FeedbackText {
   left: 0;
   opacity: 1;
 }
@@ -94,8 +96,15 @@ h1 {
   transition: left 0.5s;
 }
 
-.FullCard:hover .CardTitles {
+.FullCard:hover .CardTitles,
+.FullCard:focus .CardTitles,
+.FullCard:focus-within .CardTitles {
   left: 100%;
+}
+
+.FullCard:focus-visible {
+  outline: 3px solid #0520ed;
+  outline-offset: 3px;
 }
 
 .CardTitles :first-child {
