@@ -22,7 +22,7 @@ h1 {
 }
 
 .FullCard {
-  width: 440px;
+  width: min(440px, calc(100vw - 2rem));
   height: 260px;
   overflow: hidden;
   position: relative;

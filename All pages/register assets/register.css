@@ -15,7 +15,7 @@
   background-position: center;
 }
 .login {
-  width: 600px;
+  width: min(600px, calc(100% - 2rem));
   background: transparent;
   border: 2px solid rgb(255, 255, 255, 0.5);
   backdrop-filter: blur(10px);
@@ -23,6 +23,11 @@
   border-radius: 12px;
   padding: 15px 15px;
   margin: 65px auto;
+}
+
+@media (max-width: 480px) {
+  .login { margin: 32px auto; padding: 20px; }
+  .login h1 { font-size: 28px; }
 }
 .login span {
   color: #2a0cd5db;

@@ -15,14 +15,21 @@
   background-position: center;
 }
 .login {
-  width: 600px;
-  height: 450px;
+  width: min(600px, calc(100% - 2rem));
+  min-height: 450px;
   background: transparent;
   border: 2px solid rgb(255, 255, 255, 0.5);
   backdrop-filter: blur(10px);
   color: #fff;
   border-radius: 12px;
   padding: 30px 40px;
+}
+
+@media (max-width: 480px) {
+  .login {
+    padding: 24px 20px;
+  }
+  .login h1 { font-size: 28px; }
 }
 .login span {
   color: #0520ed;
