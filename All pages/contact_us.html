@@ -486,36 +486,36 @@
               <div class="responsive-container-block">
                 <p class="text-blk input-title" id="pra">Send a feedback!</p>
                 <div class="responsive-cell-block">
-                  <p class="text-blk input-title">
+                  <label class="text-blk input-title" for="name">
                     Name
-                  </p>
+                  </label>
                   <input required class="input" id="name" name="FirstName">
                 </div>
                 <div class="responsive-cell-block">
-                  <p class="text-blk input-title">
+                  <label class="text-blk input-title" for="title">
                     Title
-                  </p>
+                  </label>
                   <input required class="input" id="title" name="Title">
                 </div>
                 <div class="responsive-cell-block">
-                  <p class="text-blk input-title">
+                  <label class="text-blk input-title" for="email">
                     Email
-                  </p>
-                  <input type="email" required class="input" id="email" name="Email" onblur="emailErr()">
-                  <span class="emailSpan">The email is not valid</span>
+                  </label>
+                  <input type="email" required class="input" id="email" name="Email" autocomplete="email" aria-describedby="contact-email-error" onblur="emailErr()">
+                  <span class="emailSpan" id="contact-email-error" aria-live="polite">The email is not valid</span>
                 </div>
               </div>
               <div class="responsive-cell-block">
-                <p class="text-blk input-title">
+                <label class="text-blk input-title" for="subject">
                   Subject
-                </p>
+                </label>
                 <input required class="input" id="subject" name="Subject">
               </div>
               <div class="responsive-cell-block">
-                <p class="text-blk input-title" id="urmsg">
+                <label class="text-blk input-title" id="urmsg" for="message">
                   Your message
-                </p>
-                <textarea required class="textinput" id="message"></textarea>
+                </label>
+                <textarea required class="textinput" id="message" name="message"></textarea>
               </div>
               <div class="responsive-cell-block">
                 <p class="text-blk input-title">

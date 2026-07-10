@@ -145,27 +145,33 @@
             <span style="color: #78eaeb">Create</span> your account
           </h4>
           <div class="input-box">
-            <input id="userName" type="text" placeholder="User Name " />
+            <label class="visually-hidden" for="userName">User name</label>
+            <input id="userName" name="username" type="text" autocomplete="name" placeholder="User Name " />
             <i class="bx bxs-user-circle" style="color: white"></i>
             <p class="error"></p>
           </div>
 
           <div class="input-box">
-            <input id="email" type="text" placeholder="Email" />
+            <label class="visually-hidden" for="email">Email address</label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="Email" />
             <i class="bx bxs-envelope" style="color: white"></i>
             <div class="error"></div>
           </div>
 
           <div class="input-box">
-            <input id="password" type="password" placeholder="Password" />
+            <label class="visually-hidden" for="password">Password</label>
+            <input id="password" name="password" type="password" autocomplete="new-password" placeholder="Password" />
             <i class="bx bx-dialpad-alt" style="color: white"></i>
             <div class="error"></div>
           </div>
 
           <div class="input-box">
+            <label class="visually-hidden" for="confirmPassowrd">Confirm password</label>
             <input
               id="confirmPassowrd"
+              name="confirmPassword"
               type="password"
+              autocomplete="new-password"
               placeholder=" Confirm Password"
             />
             <i class="bx bx-dialpad-alt" style="color: white"></i>

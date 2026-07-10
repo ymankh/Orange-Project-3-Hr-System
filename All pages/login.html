@@ -139,9 +139,12 @@
             Enter your credential to <span style="color: #78eaeb"> login</span>
           </h4>
           <div class="input-box">
+            <label class="visually-hidden" for="email">Email address</label>
             <input
               id="email"
+              name="email"
               type="email"
+              autocomplete="email"
               placeholder="Email"
               required
               style="color: white"
@@ -149,9 +152,12 @@
             <i class="bx bxs-envelope"></i>
           </div>
           <div class="input-box">
+            <label class="visually-hidden" for="password">Password</label>
             <input
               id="password"
+              name="password"
               type="password"
+              autocomplete="current-password"
               placeholder=" Password"
               required
               style="color: white"
@@ -162,7 +168,7 @@
             <label><input type="checkbox" />Remember Me</label>
             <a href="#" style="color: #78eaeb">forgot password?</a>
           </div>
-          <p class="login-error"></p>
+          <p class="login-error" id="login-error" aria-live="polite"></p>
           <button type="submit" class="btn" style="background-color: #78eaeb">
             login
           </button>
