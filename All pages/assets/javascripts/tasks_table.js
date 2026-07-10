@@ -16,7 +16,12 @@ let table_heading = [
 // Get the data from the json file.
 async function getData() {
   if (!data) {
-    data = JSON.parse(localStorage.getItem("tasks"));
+    try {
+      const storedTasks = JSON.parse(localStorage.getItem("tasks") || "[]");
+      data = Array.isArray(storedTasks) ? storedTasks : [];
+    } catch {
+      data = [];
+    }
   }
 }
 

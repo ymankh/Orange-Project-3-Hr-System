@@ -60,9 +60,13 @@ function updateProfile(user) {
   const educationContainer = document.getElementById("profileEducation");
   educationContainer.innerHTML = "";
 
-  user.education.reverse().forEach((edu) => {
+  [...user.education].reverse().forEach((edu) => {
     const eduDiv = document.createElement("div");
-    eduDiv.innerHTML = `<span>${edu.date}</span><p>${edu.description}</p>`;
+    const date = document.createElement("span");
+    const description = document.createElement("p");
+    date.textContent = edu.date;
+    description.textContent = edu.description;
+    eduDiv.append(date, description);
     educationContainer.appendChild(eduDiv);
   });
 
