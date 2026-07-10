@@ -59,17 +59,16 @@ let currentPasswordError = document.getElementById("currentPasswordError");
 
 currentPassword.addEventListener("input", validateCurrentPassword);
 
-function validateCurrentPassword() {
+async function validateCurrentPassword() {
   try {
     const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-    if (!loggedInUser || !loggedInUser.password) {
-      currentPasswordError.innerHTML = "No logged in user or password found.";
+    const users = JSON.parse(localStorage.getItem("usersData")) || [];
+    const storedUser = users.find((user) => user.email === loggedInUser?.email);
+    if (!storedUser || !storedUser.password) {
+      currentPasswordError.innerHTML = "No account password found.";
       return false;
     }
-    const storedPassword = loggedInUser.password; // Retrieve encrypted password from loggedInUser in localStorage
-    const decodedPassword = atob(storedPassword); // Decrypt to plain text
-
-    if (currentPassword.value === decodedPassword) {
+    if (await passwordSecurity.verifyPassword(currentPassword.value, storedUser.password)) {
       currentPasswordError.innerHTML = "";
       return true;
     } else {
@@ -115,12 +114,6 @@ function validateConfirmPassword() {
   }
 }
 
-// النص المشفر Base64
-let encodedPassword = "MTIzQWJjJiY=";
-
-// فك التشفير إلى النص الأصلي
-let decodedPassword = atob(encodedPassword);
-
 // Save Profile
 document.addEventListener("DOMContentLoaded", function () {
   loadProfileForEdit();
@@ -134,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .addEventListener("click", cancelEdit);
 });
 
-function saveProfile(event) {
+async function saveProfile(event) {
   event.preventDefault();
 
   // Validate all fields
@@ -152,7 +145,7 @@ function saveProfile(event) {
 
     // Validate current password only if new password entered
     if (newPassword.value !== "" && confirmPassword.value !== "") {
-      isCurrentPasswordValid = validateCurrentPassword();
+      isCurrentPasswordValid = await validateCurrentPassword();
     }
 
     // if (!isCurrentPasswordValid) {
@@ -210,10 +203,11 @@ function saveProfile(event) {
       // Check if new password is entered
       const newPasswordValue = newPassword.value.trim();
       if (newPasswordValue !== "") {
-        const encodedNewPassword = btoa(newPasswordValue); // Encrypt new password with Base64
-        loggedInUser.password = encodedNewPassword;
+        loggedInUser.password = await passwordSecurity.hashPassword(newPasswordValue);
       }
 
+      const updatedPassword = loggedInUser.password;
+      delete loggedInUser.password;
       localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
 
       // Retrieve usersData from local storage
@@ -223,7 +217,7 @@ function saveProfile(event) {
       for (let i = 0; i < usersData.length; i++) {
         if (usersData[i].email === Oldemail) {
           usersData[i].userName = loggedInUser.userName;
-          usersData[i].password = loggedInUser.password;
+          if (updatedPassword) usersData[i].password = updatedPassword;
           usersData[i].email = loggedInUser.email;
 
           // Save the updated usersData back to local storage

@@ -5,14 +5,15 @@ const rememberMeCheckbox = document.querySelector(".remember-forgot input");
 
 // Check if user credentials are stored in localStorage
 window.addEventListener("DOMContentLoaded", (event) => {
+  // Remove credentials persisted by older versions of the application.
+  localStorage.removeItem("userPassword");
   if (localStorage.getItem("rememberMe") === "true") {
     emailInput.value = localStorage.getItem("userEmail") || "";
-    passwordInput.value = localStorage.getItem("userPassword") || "";
     rememberMeCheckbox.checked = true;
   }
 });
 
-loginForm.addEventListener("submit", function (event) {
+loginForm.addEventListener("submit", async function (event) {
   event.preventDefault(); // Prevent page reload
 
   const userEmail = emailInput.value;
@@ -24,13 +25,25 @@ loginForm.addEventListener("submit", function (event) {
     const isValidUser = users.filter((user) => user.email == userEmail);
 
     if (isValidUser.length) {
-      if (isValidUser[0].password == userPassword) {
+      let passwordMatches = await passwordSecurity.verifyPassword(
+        userPassword,
+        isValidUser[0].password
+      );
+
+      // One-time migration for accounts created by older versions.
+      if (!isValidUser[0].password.startsWith("pbkdf2-sha256$") &&
+          isValidUser[0].password === userPassword) {
+        isValidUser[0].password = await passwordSecurity.hashPassword(userPassword);
+        localStorage.setItem("usersData", JSON.stringify(users));
+        passwordMatches = true;
+      }
+
+      if (passwordMatches) {
         let loggedInUser = isValidUser[0];
 
         if (rememberMeCheckbox.checked) {
           localStorage.setItem("rememberMe", "true");
           localStorage.setItem("userEmail", userEmail);
-          localStorage.setItem("userPassword", passwordInput.value); // Store decrypted password
         } else {
           localStorage.removeItem("rememberMe");
           localStorage.removeItem("userEmail");
@@ -46,7 +59,7 @@ loginForm.addEventListener("submit", function (event) {
         );
 
         // Proceed with successful login actions here
-        // delete loggedInUser.password;
+        delete loggedInUser.password;
         localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
         window.location.href = "../../index.html";
       } else {

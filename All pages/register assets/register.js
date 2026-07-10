@@ -1,21 +1,20 @@
 const localStorageData = localStorage.getItem("usersData");
 
 if (!localStorageData) {
-  localStorage.setItem(
-    "usersData",
-    JSON.stringify([{ userName: "admin", password: "Admin1234**" }])
-  );
+  localStorage.setItem("usersData", "[]");
 }
 
 const form = document.getElementById("form");
 
-form.addEventListener("submit", (e) => {
+form.addEventListener("submit", async (e) => {
   e.preventDefault(); // To prevent page reload
   if (validateInputs()) {
     let userinfo = {
       userName: document.getElementById("userName").value,
       email: document.getElementById("email").value,
-      password: document.getElementById("password").value,
+      password: await passwordSecurity.hashPassword(
+        document.getElementById("password").value
+      ),
     };
     let users = JSON.parse(localStorage.getItem("usersData"));
 
